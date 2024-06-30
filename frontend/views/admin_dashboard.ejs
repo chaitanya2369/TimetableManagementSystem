@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin.css" />
+    <!-- Add your CSS file here -->
+  </head>
+  <body>
+    <header>
+      <div class="header">
+        <div class="logo">
+          <img src="/images/logo1.png" alt="Institution Logo" />
+        </div>
+        <h1>Admin Dashboard</h1>
+        <div class="login">
+          <button><a href="/users/sign-out">Sign Out</a></button>
+        </div>
+      </div>
+    </header>
+    <h1 id="name">Welcome, <%= user.name %>!</h1>
+    <div class="sections">
+      <!-- User Management Section -->
+      <section>
+        <h3>User Management</h3>
+        <ul>
+          <li><a href="/admin/users">View All Users</a></li>
+          <li><a href="/admin/users/add">Add New User</a></li>
+        </ul>
+      </section>
+
+      <!-- Timetable Management Section -->
+      <section>
+        <h3>Timetable Management</h3>
+        <ul>
+          <li><a href="/admin/timetables">View Timetables</a></li>
+          <li><a href="/admin/timetables/create">Create New Timetable</a></li>
+        </ul>
+      </section>
+
+      <!-- Analytics Section -->
+      <section>
+        <h3>Analytics</h3>
+        <ul>
+          <li><a href="/admin/analytics">View Analytics</a></li>
+          <li><a href="/admin/reports">Generate Reports</a></li>
+        </ul>
+      </section>
+
+      <!-- Notifications Section -->
+      <section>
+        <h3>Notifications</h3>
+        <ul>
+          <li><a href="/admin/notifications">View Notifications</a></li>
+          <li><a href="/admin/messages">View Messages</a></li>
+        </ul>
+      </section>
+
+      <!-- Settings Section -->
+      <section>
+        <h3>Settings</h3>
+        <ul>
+          <li><a href="/admin/settings">Manage Settings</a></li>
+          <li><a href="/admin/profile">Update Profile</a></li>
+        </ul>
+      </section>
+    </div>
+    <footer>
+      <div class="footer-content">
+        <p>
+          &copy; 2024 Indian Institute of Engineering Science and Technology,
+          Shibpur. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

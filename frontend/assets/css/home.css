@@ -1,0 +1,227 @@
+/* Reset default padding and margin */
+* {
+    padding: 0;
+    margin: 0;
+}
+
+/* Body styling */
+body {
+    /* background-color: rgb(187, 236, 242); */
+    background-color: white;
+}
+
+/* Main section with background image */
+main {
+    background-image: url("/images/institution1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Header styling */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Logo styling */
+.logo img {
+    width: 150px;
+    height: 100px;
+}
+
+/* Navigation links styling */
+.links ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+.links li {
+    float: left;
+    font-size: 25px;
+    margin: 20px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+.links li a {
+    text-decoration: none;
+    color: black; /* Added color for links */
+}
+
+/* Login button styling */
+.login button {
+    font-size: 25px;
+    margin-right: 20px;
+    padding: 15px;
+    border-radius: 50px;
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+    cursor: pointer;
+}
+.login a {
+    text-decoration: none;
+    color: white;
+}
+
+/* Institution info styling */
+.institution-info {
+    padding-top: 25px;
+    color: aquamarine;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.institution-info h2 {
+    text-align: center;
+    font-size: 40px;
+}
+.institution-info p {
+    display: inline-block;
+    font-size: 25px;
+    color: rgb(204, 235, 131);
+    font-weight: bold;
+    animation: moveText 15s linear infinite;
+}
+
+/* Keyframes for moving text animation */
+@keyframes moveText {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Main content division styling */
+.maindiv {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-around;
+    /* align-items: center; */
+    font-size: 25px;
+}
+
+/* Content matter division styling */
+.matter div {
+    background: transparent;
+    backdrop-filter: blur(8px);
+    margin: 25px;
+    margin-top: 0px;
+    /* padding: 20px; 
+    padding-top: 0px; */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+/* Timetable styling */
+.timetable {
+    margin-bottom: 25px;
+}
+.timetable h2 {
+    background-color: black;
+    color: white;
+}
+.timetable ul {
+    padding-left: 20px; /* Add padding to ensure list dots are inside */
+    margin: 0; /* Remove default margin */
+}
+.timetable li {
+    list-style-position: inside; /* Ensure list dots are inside the padding */
+    color: white;
+}
+
+.timetable p {
+    color: rgb(136, 203, 241);
+}
+.buttondiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.timetable a{
+    text-decoration: none;
+    color: white;
+}
+.timetable button {
+    font-size: 25px;
+    margin-top: 10px;
+    margin-right: 20px;
+    padding: 15px;
+    background-color: black;
+    border-radius: 5px;
+    color: white;
+    font-weight: bolder;
+    cursor: pointer;
+    width: 50%;
+    align-items: center;
+}
+
+.testimonials{
+    padding-top: 0px;
+    color: white;
+}
+.testimonials h3{
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+/* Announcements styling */
+.announcements {
+    color: white;
+    background: transparent;
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 300px; /* Adjust as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    /* padding: 10px;
+    padding-top: 0px; */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+}
+.announcements h2 {
+    color: rgb(253, 253, 253);
+    position: sticky;
+    width: 100%;
+    text-align: center;
+    top: 0;
+    backdrop-filter: blur(8px);
+    background-color: black;
+    /* background: rgba(0, 0, 0, 0.8);  */
+    z-index: 1; /* Ensure it stays on top */
+}
+.announcements ul {
+    padding-left: 20px; /* Add padding to ensure list dots are inside */
+    margin: 0; /* Remove default margin */
+}
+.announcements li {
+    list-style-position: inside; /* Ensure list dots are inside the padding */
+}
+
+/* Scrollbar styling for announcements */
+.announcements::-webkit-scrollbar {
+    width: 8px;
+}
+.announcements::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 4px;
+}
+.announcements::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.contact-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.contact-info h2{
+    text-align: center;
+    font-size: 35px;
+}
