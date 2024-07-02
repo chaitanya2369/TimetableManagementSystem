@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timetable</title>
+  <link rel="stylesheet" type="text/css" href="/css/viewtimetable.css" />
+</head>
+<body>
+  <header>
+    <div class="header">
+      <div class="logo">
+        <img src="/images/logo1.png" alt="Institution Logo" />
+      </div>
+      <h1>Admin Dashboard</h1>
+      <div class="login">
+        <button><a href="/users/sign-out">Sign Out</a></button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <h1>Timetable</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th>Saturday</th>
+          <th>Sunday</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% const times = ['09:00 - 09:55', '09:55 - 10:50', '10:50 - 11:45', '11:45 - 12:40', '12:40 - 01:35', '01:35 - 02:30', '02:30 - 03:25', '03:25 - 04:20', '04:20 - 05:15']; %>
+        <% times.forEach(time => { %>
+          <tr>
+            <td><%= time %></td>
+            <% days.forEach(day => { %>
+              <td>
+                <% const timetable = timetables.find(t => t.day === day); %>
+                <% if (timetable) { %>
+                  <% const timeSlot = timetable.timeSlots.find(slot => slot.startTime === time.split(' - ')[0]); %>
+                  <% if (timeSlot) { %>
+                    <strong>Subject:</strong> <%= timeSlot.subject %><br>
+                    <strong>Teacher:</strong> <%= timeSlot.teacher %>
+                  <% } else { %>
+                    -
+                  <% } %>
+                <% } else { %>
+                  -
+                <% } %>
+              </td>
+            <% }); %>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </main>
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2024 Indian Institute of Engineering Science and Technology, Shibpur. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

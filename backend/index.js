@@ -8,10 +8,14 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = 9000;
 
-const secretKey = '12345'; // Replace with your actual secret key
+const secretKey = '12345'; 
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/timetable_management');
+mongoose.connect('mongodb://localhost/timetable_management').then(() => {
+    console.log('Connected to MongoDB');
+}).catch((err) => {
+    console.log('Failed to connect to MongoDB', err);
+});
 
 // Middleware for parsing request bodies, serving static files, and handling cookies
 app.use(express.urlencoded({ extended: true }));
@@ -45,15 +49,27 @@ function checkToken(req, res, next) {
     } else {
         next();
     }
-} 
+}
+
+// Middleware to ensure user is authenticated and has the appropriate role
+function ensureAuthenticated(role) {
+    return (req, res, next) => {
+        if (req.user && req.user.role === role) {
+            return next();
+        } else {
+            res.redirect('/users/sign-in');
+        }
+    };
+}
 
 // Routes
 app.use(checkToken);
-app.use('/admin', require('./routes/admin')); 
-app.use('/teacher', require('./routes/teacher')); 
-app.use('/student', require('./routes/student')); 
+app.use('/admin', ensureAuthenticated('admin'), require('./routes/admin'));
+app.use('/teacher', ensureAuthenticated('teacher'), require('./routes/teacher'));
+app.use('/student', ensureAuthenticated('student'), require('./routes/student'));
 app.use('/users', require('./routes/users'));
 app.use('/', require('./routes/home'));
+app.use('/admin/timetables', require('./routes/timetable'));
 
 // Start the server
 app.listen(port, function (err) {

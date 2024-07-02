@@ -1,157 +1,22 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: rgb(187, 236, 242);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-}
-
-.logo img {
-    width: 100px;
-    height: auto;
-}
-
-.login {
-    display: flex;
-    align-items: center;
-}
-
-.login button {
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: black;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.login a {
-    text-decoration: none;
-    color: white;
-}
-
-main {
-    flex: 1;
-    padding: 20px;
-}
-
-h1 {
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-#name {
-    color: #555;
+.department-section {
     margin-bottom: 20px;
 }
 
-h3 {
-    color: #666;
-    margin-bottom: 10px;
+.department-section h2 {
+    background-color: #f0f0f0;
+    padding: 10px;
 }
 
-.sections {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+.department-section h3 {
+    margin-left: 20px;
 }
 
-section {
-    background-color: #fff;
-    padding: 20px;
-    margin: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: calc(50% - 40px);
-    box-sizing: border-box;
-}
-
-ul {
+.department-section ul {
     list-style-type: none;
     padding: 0;
+    margin-left: 20px;
 }
 
-li {
-    margin: 10px 0;
-}
-
-a {
-    text-decoration: none;
-    color: #3498db;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-form {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #666;
-}
-
-.form-group input, .form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-button {
-    background-color: #3498db;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-button:hover {
-    background-color: #2980b9;
-}
-
-footer {
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-    text-align: center;
-    padding: 10px;
-}
-
-.footer-content p {
-    margin: 10px 0;
+.department-section li {
+    margin: 5px 0;
 }

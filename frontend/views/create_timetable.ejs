@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Timetable</title>
+  <link rel="stylesheet" type="text/css" href="/css/createtimetable.css" />
+</head>
+<body>
+  <header>
+    <div class="header">
+      <div class="logo">
+        <img src="/images/logo1.png" alt="Institution Logo" />
+      </div>
+      <h1>Admin Dashboard</h1>
+      <div class="login">
+        <button><a href="/users/sign-out">Sign Out</a></button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <h1>Create Timetable</h1>
+    <form action="/admin/timetables/create" method="POST">
+      <label for="department">Department:</label>
+      <input type="text" id="department" name="department" required>
+  
+      <label for="year">Year:</label>
+      <input type="number" id="year" name="year" required>
+  
+      <label for="day">Day:</label>
+      <input type="text" id="day" name="day" required>
+  
+      <label for="startTime">Start Time:</label>
+      <input type="time" id="startTime" name="startTime" required>
+  
+      <label for="endTime">End Time:</label>
+      <input type="time" id="endTime" name="endTime" required>
+  
+      <label for="course">Course:</label>
+      <input type="text" id="course" name="course" required>
+      
+      <label for="teacher">Teacher:</label>
+      <input type="text" id="teacher" name="teacher" required>
+  
+      <button type="submit">Create Timetable</button>
+  </form>
+  </main>
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2024 Indian Institute of Engineering Science and Technology, Shibpur. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

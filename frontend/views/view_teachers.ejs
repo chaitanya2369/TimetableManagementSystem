@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>View All Users</title>
+    <title>Teachers in <%= department %> Department</title>
     <link rel="stylesheet" type="text/css" href="/css/admin.css">
 </head>
 <body>
@@ -17,20 +17,12 @@
         </div>
     </header>
     <main>
-        <h1 id="name">Welcome, <%= user.name %>!</h1>
-        <div class="sections">
-            <% for (let department in departments) { %>
-                <section class="department-section">
-                    <h2><%= department %></h2>
-                    <div>
-                        <ul>
-                            <li><a href="/admin/users/students/<%= department %>">View Students</a></li>
-                            <li><a href="/admin/users/teachers/<%= department %>">View Teachers</a></li>
-                        </ul>
-                    </div>
-                </section>
-            <% } %>
-        </div>
+        <h1>Teachers in <%= department %> Department</h1>
+        <ul>
+            <% teachers.forEach(teacher => { %>
+                <li><%= teacher.name %></li>
+            <% }); %>
+        </ul>
     </main>
     <footer>
         <div class="footer-content">
