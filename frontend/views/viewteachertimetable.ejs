@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= timetables[0]?.department %> Year <%= timetables[0]?.year %> Timetable</title>
+  <title>Timetable for <%= teacherName ? teacherName : (timetables[0]?.department + ' Year ' + timetables[0]?.year) %></title>
   <link rel="stylesheet" type="text/css" href="/css/viewtimetable.css" />
 </head>
 <body>
@@ -17,14 +17,18 @@
     </div>
   </header>
   <main>
-    <h1><%= timetables[0]?.department %> Year <%= timetables[0]?.year %> Timetable</h1>
+    <h1>Timetable for <%= teacherName ? teacherName : (timetables[0]?.department + ' Year ' + timetables[0]?.year) %></h1>
     <table>
       <thead>
         <tr>
           <th>Time</th>
-          <% days.forEach(day => { %>
-            <th><%= day %></th>
-          <% }) %>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th>Saturday</th>
+          <th>Sunday</th>
         </tr>
       </thead>
       <tbody>
@@ -40,6 +44,7 @@
             '03:25 - 04:20', 
             '04:20 - 05:15'
           ];
+          const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
           // Helper function to convert time to minutes
           const convertTimeToMinutes = (time) => {
@@ -62,22 +67,25 @@
                 <% 
                   const startTime = convertTimeToMinutes(time.split(' - ')[0]);
                   const endTime = convertTimeToMinutes(time.split(' - ')[1]);
-                  const dayTimetable = timetables.find(t => t.days.some(d => d.day === day));
                   let slotFound = false;
-                  if (dayTimetable) {
-                    const daySchedule = dayTimetable.days.find(d => d.day === day);
+
+                  timetables.forEach(timetable => {
+                    const daySchedule = timetable.days.find(d => d.day === day);
                     if (daySchedule) {
                       daySchedule.timeSlots.forEach(slot => {
-                        if (doesSlotSpanTime(slot, startTime, endTime)) {
+                        if (doesSlotSpanTime(slot, startTime, endTime) && (!teacherName || slot.teacher === teacherName)) {
                           slotFound = true;
                           %>
-                            <strong>Course:</strong> <%= slot.course %><br>
-                            <strong>Teacher:</strong> <%= slot.teacher %>
-                          <% 
+                            <strong>course:</strong> <%= slot.course %><br>
+                            <strong>Department:</strong> <%= timetable.department %> <br>
+                            <strong>Year:</strong> <%= timetable.year %> <br>
+
+                          <%
                         }
                       });
                     }
-                  } 
+                  });
+                  
                   if (!slotFound) {
                     %>-<%
                   }

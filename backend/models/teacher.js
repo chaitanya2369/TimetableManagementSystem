@@ -10,19 +10,10 @@ const TeacherSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    // password: {
-    //     type: String,
-    //     default: null
-    // },
     department: {
         type: String,
         required: true
     },
-    // uniqueCode: {
-    //     type: String,
-    //     required: true,
-    //     unique: true
-    // },
     date: {
         type: Date,
         default: Date.now

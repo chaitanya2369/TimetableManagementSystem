@@ -1,22 +1,34 @@
 // controllers/timetable_controller.js
+const timetable = require('../models/timetable');
 const Timetable = require('../models/timetable');
 const { validationResult } = require('express-validator');
 
 
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-// Controller function to fetch and render timetable
-module.exports.viewTimetables = async (req, res) => {
-    try {
-        const timetables = await Timetable.find().lean(); // Use lean() for plain JS objects
-        res.render('view_timetable', { timetables, days }); // Pass days array to the template
-    } catch (err) {
-        console.error('Error fetching timetables:', err);
-        res.status(500).send('Error fetching timetables');
-    }
+// module.exports.viewTimetables = async (req, res) => {
+  //     try {
+    //         const timetables = await Timetable.find().lean(); // Use lean() for plain JS objects
+    //         const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    //         res.render('view_timetable', { timetables, days }); // Pass days array to the template
+    //     } catch (err) {
+      //         console.error('Error fetching timetables:', err);
+      //         res.status(500).send('Error fetching timetables');
+      //     }
+      // };
+      // const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      module.exports.viewTimetables = async (req, res) => {
+        try {
+      const { department, year } = req.params; 
+      // console.log(department);// Assuming department and year are passed as query parameters
+      // console.log(year);// Assuming department and year are passed as query parameters
+      const timetables = await Timetable.find({ department, year }).lean(); // Fetch timetables for the specific department and year
+      console.log(timetables);
+      const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']; // Define days array here
+      res.render('view_timetable', { timetables, days, department, year }); // Pass days, department, and year to the template
+  } catch (err) {
+      console.error('Error fetching timetables:', err);
+      res.status(500).send('Error fetching timetables');
+  }
 };
-
-
 
 module.exports.viewDepartments = (req, res) => {
     const departments = ['CST', 'EE', 'IT']; // Example departments
@@ -34,43 +46,139 @@ module.exports.createTimetablePage = (req, res) => {
     });
 };
 
-
 module.exports.createTimetable = async (req, res) => {
+  try {
     const { department, year, day, startTime, endTime, course, teacher } = req.body;
-    
-    // Validate required fields
-    if (!department || !year || !day || !startTime || !endTime || !course  || !teacher) {
-        return res.status(400).send('All fields are required');
+    console.log(req.body);
+
+    // Validate input
+    if (!department || !year || !day || !startTime || !endTime || !course || !teacher) {
+      return res.status(400).json({ message: 'Invalid input' });
     }
 
-    try {
-        // Create a new timetable entry
-        const newTimetable = new Timetable({
-            department,
-            year,
-            day,
-            timeSlots: [
-                {
-                    startTime,
-                    endTime,
-                    teacher
-                }
-            ],
-            course
+    // Convert time to minutes for easier comparison
+    const convertTimeToMinutes = (time) => {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    };
+
+    const newStart = convertTimeToMinutes(startTime);
+    const newEnd = convertTimeToMinutes(endTime);
+
+    // Find the existing timetable for the department and year
+    let timetable = await Timetable.findOne({ department, year });
+
+    if (timetable) {
+      // Check if the day already exists in the timetable
+      let dayEntry = timetable.days.find(d => d.day === day);
+      if (dayEntry) {
+        // Check for conflicts with existing time slots
+        const conflict = dayEntry.timeSlots.some(slot => {
+          const existingStart = convertTimeToMinutes(slot.startTime);
+          const existingEnd = convertTimeToMinutes(slot.endTime);
+          return (newStart < existingEnd && newEnd > existingStart);
         });
 
-        // Save the new timetable entry to the database
-        await newTimetable.save();
+        if (conflict) {
+          return res.status(400).json({ message: 'Time slot conflict detected' });
+        }
 
-        console.log('Timetable created successfully');
-        return res.redirect('back');
-    } catch (err) {
-        console.error('Error creating timetable:', err);
-        res.status(500).send('Error creating timetable');
+        // Add the new time slot to the existing day entry
+        dayEntry.timeSlots.push({ startTime, endTime, course, teacher });
+      } else {
+        // Create a new day entry if it doesn't exist
+        timetable.days.push({
+          day,
+          timeSlots: [{ startTime, endTime, course, teacher }]
+        });
+      }
+    } else {
+      // Create a new timetable if it doesn't exist
+      timetable = new Timetable({
+        department,
+        year,
+        days: [{
+          day,
+          timeSlots: [{ startTime, endTime, course, teacher }]
+        }]
+      });
     }
+
+    // Save the updated timetable to the database
+    await timetable.save();
+
+    res.status(201).json({ message: 'Timetable created/updated successfully', timetable });
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating/updating timetable', error });
+  }
 };
 
-
+// module.exports.createTimetable = async (req, res) => {
+//     try {
+//       const { department, year, day, startTime, endTime, course, teacher } = req.body;
+//       console.log(req.body);
+  
+//       // Validate input
+//       if (!department || !year || !day || !startTime || !endTime || !course || !teacher) {
+//         return res.status(400).json({ message: 'Invalid input' });
+//       }
+  
+//       // Convert time to minutes for easier comparison
+//       const convertTimeToMinutes = (time) => {
+//         const [hours, minutes] = time.split(':').map(Number);
+//         return hours * 60 + minutes;
+//       };
+  
+//       const newStart = convertTimeToMinutes(startTime);
+//       const newEnd = convertTimeToMinutes(endTime);
+  
+//       // Find the existing timetable for the department and year
+//       let timetable = await Timetable.findOne({ department, year });
+  
+//       if (timetable) {
+//         // Check if the day already exists in the timetable
+//         let dayEntry = timetable.days.find(d => d.day === day);
+//         if (dayEntry) {
+//           // Check for conflicts with existing time slots
+//           const conflict = dayEntry.timeSlots.some(slot => {
+//             const existingStart = convertTimeToMinutes(slot.startTime);
+//             const existingEnd = convertTimeToMinutes(slot.endTime);
+//             return (newStart < existingEnd && newEnd > existingStart);
+//           });
+  
+//           if (conflict) {
+//             return res.status(400).json({ message: 'Time slot conflict detected' });
+//           }
+  
+//           // Add the new time slot to the existing day entry
+//           dayEntry.timeSlots.push({ startTime, endTime, course, teacher });
+//         } else {
+//           // Create a new day entry if it doesn't exist
+//           timetable.days.push({
+//             day,
+//             timeSlots: [{ startTime, endTime, course, teacher }]
+//           });
+//         }
+//       } else {
+//         // Create a new timetable if it doesn't exist
+//         timetable = new Timetable({
+//           department,
+//           year,
+//           days: [{
+//             day,
+//             timeSlots: [{ startTime, endTime, course, teacher }]
+//           }]
+//         });
+//       }
+  
+//       // Save the updated timetable to the database
+//       await timetable.save();
+  
+//       res.status(201).json({ message: 'Timetable created/updated successfully', timetable });
+//     } catch (error) {
+//       res.status(500).json({ message: 'Error creating/updating timetable', error });
+//     }
+//   };
 
 module.exports.editTimetablePage = async (req, res) => {
     try {

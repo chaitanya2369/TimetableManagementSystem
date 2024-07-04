@@ -10,10 +10,10 @@ const StudentSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    // password: {
-    //     type: String,
-    //     default: null
-    // },
+    year: {
+        type: String,
+        default: null
+    },
     department: {
         type: String,
         required: true

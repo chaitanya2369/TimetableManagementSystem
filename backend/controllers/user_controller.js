@@ -56,7 +56,7 @@ module.exports.signIn = async (req, res) => {
         }
 
         // Include the role in the token payload
-        const token = jwt.sign({ userId: user._id, name: user.name, role: user.role }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, email: user.email, name: user.name, role: user.role }, secretKey, { expiresIn: '1h' });
         res.cookie('token', token, { httpOnly: true });
 
         // Redirect based on user role

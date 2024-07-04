@@ -51,28 +51,29 @@ module.exports.addUser = (req, res) => {
 };
 
 module.exports.addedUser = async (req, res) => {
-    const { name, email, department, role } = req.body;
+    const { name, email, department,year, role } = req.body;
     let errors = [];
 
-    if (!name || !email || !department || !role) {
+    if (!name || !email || !department || !role || !year) {
         errors.push({ msg: 'Please fill in all fields' });
     }
 
     if (errors.length > 0) {
-        res.render('addUser', { errors, name, email, department, role, user: req.user });
+        res.render('addUser', { errors, name, email, department,year, role, user: req.user });
     } else {
         try {
             const existingUser = await (role === 'student' ? Student.findOne({ email }) : Teacher.findOne({ email }));
             if (existingUser) {
                 errors.push({ msg: 'Email is already registered' });
-                res.render('addUser', { errors, name, email, department, role, user: req.user });
+                res.render('addUser', { errors, name, email, department, role, year, user: req.user });
             } else {
                 const uniqueCode = await generateUniqueCode(department);
                 const newUser = role === 'student' ? new Student({
                     name,
                     email,
                     department,
-                    uniqueCode
+                    uniqueCode,
+                    year,
                 }) : new Teacher({
                     name,
                     email,
@@ -88,7 +89,7 @@ module.exports.addedUser = async (req, res) => {
             }
         } catch (err) {
             console.log(err);
-            res.render('addUser', { errors, name, email, department, role, user: req.user });
+            res.render('addUser', { errors, name, email, department, role,year, user: req.user });
         }
     }
 };
