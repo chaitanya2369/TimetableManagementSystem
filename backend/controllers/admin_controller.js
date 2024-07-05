@@ -51,46 +51,49 @@ module.exports.addUser = (req, res) => {
 };
 
 module.exports.addedUser = async (req, res) => {
-    const { name, email, department,year, role } = req.body;
+    const { name, email, department, year, role } = req.body;
     let errors = [];
 
-    if (!name || !email || !department || !role || !year) {
+    if (!name || !email || !department || !role || (role === 'student' && !year)) {
         errors.push({ msg: 'Please fill in all fields' });
     }
 
     if (errors.length > 0) {
-        res.render('addUser', { errors, name, email, department,year, role, user: req.user });
-    } else {
-        try {
-            const existingUser = await (role === 'student' ? Student.findOne({ email }) : Teacher.findOne({ email }));
-            if (existingUser) {
-                errors.push({ msg: 'Email is already registered' });
-                res.render('addUser', { errors, name, email, department, role, year, user: req.user });
-            } else {
-                const uniqueCode = await generateUniqueCode(department);
-                const newUser = role === 'student' ? new Student({
-                    name,
-                    email,
-                    department,
-                    uniqueCode,
-                    year,
-                }) : new Teacher({
-                    name,
-                    email,
-                    department
-                });
+        return res.render('addUser', { errors, name, email, department, year, role, user: req.user });
+    }
 
-                newUser.save()
-                    .then(user => {
-                        console.log('User added: ', user);
-                        res.redirect('/admin/dashboard');
-                    })
-                    .catch(err => console.log(err));
-            }
-        } catch (err) {
-            console.log(err);
-            res.render('addUser', { errors, name, email, department, role,year, user: req.user });
+    try {
+        const existingUser = await (role === 'student' ? Student.findOne({ email }) : Teacher.findOne({ email }));
+        if (existingUser) {
+            errors.push({ msg: 'Email is already registered' });
+            return res.render('addUser', { errors, name, email, department, year, role, user: req.user });
         }
+
+        let newUser;
+        if (role === 'student') {
+            const uniqueCode = await generateUniqueCode(department);
+            newUser = new Student({
+                name,
+                email,
+                department,
+                uniqueCode,
+                year
+            });
+        } else {
+            newUser = new Teacher({
+                name,
+                email,
+                department
+            });
+        }
+
+        await newUser.save();
+        console.log('User added: ', newUser);
+        res.redirect('/admin/dashboard');
+    } catch (err) {
+        console.log(err);
+        errors.push({ msg: 'An error occurred while adding the user. Please try again.' });
+        res.render('addUser', { errors, name, email, department, year, role, user: req.user });
     }
 };
 

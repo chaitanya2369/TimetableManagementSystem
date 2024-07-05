@@ -2,27 +2,40 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const secretKey = "12345"; 
+const Student = require('../models/student');
+const Teacher = require('../models/teacher');
 
 module.exports.signUpPage = (req, res) => {
     res.render('sign-up');
 };
 
+
 module.exports.signUp = async (req, res) => {
     const { name, email, password, role } = req.body;
     try {
-        // Check if the email already exists
+        // Check if the email already exists in the students or teachers collection
+        const isUserInStudents = await Student.findOne({ email });
+        const isUserInTeachers = await Teacher.findOne({ email });
+        
+        if (!isUserInStudents && !isUserInTeachers) {
+            return res.render('sign-up', { error: 'User not found. Kindly contact Admin.' });
+        }
+        
+        // Check if the email already exists in the User collection
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.render('sign-up', { error: 'Email already exists' });
+            return res.render('sign-up', { error: 'Email already exists. Try signing in.' });
         }
 
         // Hash the password and create a new user
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({ name, email, password: hashedPassword, role });
         await user.save();
+
         res.redirect('/users/sign-in');
     } catch (error) {
-        res.redirect('/users/sign-up');
+        console.error('Error during sign up:', error);
+        res.render('sign-up', { error: 'An error occurred during sign up. Please try again later.' });
     }
 };
 
