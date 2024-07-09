@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Analytics Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin_analytics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="logo">
+                <img src="/images/logo1.png" alt="Institution Logo" />
+            </div>
+            <h1>Admin Analytics Dashboard</h1>
+            <div class="login">
+                <button><a href="/users/sign-out">Sign Out</a></button>
+            </div>
+        </div>
+    </header>
+    <main>
+        <h2>User Statistics</h2>
+        <div class="stats">
+            <p>Total Students: <%= analyticsData.totalStudents %></p>
+            <p>Total Teachers: <%= analyticsData.totalTeachers %></p>
+            <h3>Students by Department</h3>
+            <ul>
+                <% analyticsData.studentsByDepartment.forEach(dept => { %>
+                    <li><%= dept._id %>: <%= dept.count %></li>
+                <% }) %>
+            </ul>
+            <h3>Teachers by Department</h3>
+            <ul>
+                <% analyticsData.teachersByDepartment.forEach(dept => { %>
+                    <li><%= dept._id %>: <%= dept.count %></li>
+                <% }) %>
+            </ul>
+        </div>
+        
+        <h2>Timetable Utilization</h2>
+        <div class="stats">
+            <p>Total Timeslots: <%= analyticsData.totalTimeslots %></p>
+            <p>Scheduled Timeslots: <%= analyticsData.scheduledTimeslots %></p>
+        </div>
+        
+        <h2>Charts</h2>
+        <canvas id="studentsChart"></canvas>
+        <canvas id="teachersChart"></canvas>
+        
+        <script>
+            // Data for Students by Department Chart
+            const studentsByDepartment = <%- JSON.stringify(analyticsData.studentsByDepartment) %>;
+            const studentLabels = studentsByDepartment.map(dept => dept._id);
+            const studentCounts = studentsByDepartment.map(dept => dept.count);
+            
+            const ctx1 = document.getElementById('studentsChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: studentLabels,
+                    datasets: [{
+                        label: 'Number of Students',
+                        data: studentCounts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Data for Teachers by Department Chart
+            const teachersByDepartment = <%- JSON.stringify(analyticsData.teachersByDepartment) %>;
+            const teacherLabels = teachersByDepartment.map(dept => dept._id);
+            const teacherCounts = teachersByDepartment.map(dept => dept.count);
+            
+            const ctx2 = document.getElementById('teachersChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: teacherLabels,
+                    datasets: [{
+                        label: 'Number of Teachers',
+                        data: teacherCounts,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Indian Institute of Engineering Science and Technology, Shibpur. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

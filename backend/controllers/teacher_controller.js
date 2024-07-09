@@ -1,18 +1,18 @@
 const Timetable = require('../models/timetable');
 const Teacher = require('../models/teacher'); // Assuming you have a Teacher model
+const Notification = require('../models/notification');
 
 
-module.exports.dashboard = (req, res) => {
-    if(req.user){
-        if(req.user.role === 'teacher'){
-            res.render('teacher_dashboard', { user: req.user });
+module.exports.dashboard = async (req, res) => {
+    if (req.user) {
+        if (req.user.role === 'teacher') {
+            const notifications = await Notification.find({ recipientType: 'teacher', department: req.user.department }).lean();
+            res.render('teacher_dashboard', { user: req.user, notifications });
+        } else {
+            res.redirect('/users/sign-in');
         }
     }
-    else{
-        res.redirect('/users/sign-in');
-    }
 };
-
 
 module.exports.viewTeacherTimetables = async (req, res) => {
     try {

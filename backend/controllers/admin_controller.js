@@ -1,5 +1,6 @@
 const Student = require('../models/student');
 const Teacher = require('../models/teacher');
+const Timetable = require('../models/timetable');
 
 async function generateUniqueCode(department) {
     const year = new Date().getFullYear();
@@ -116,5 +117,49 @@ module.exports.viewTeachers = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.redirect('/admin/users');
+    }
+};
+
+
+module.exports.getAnalytics = async (req, res) => {
+    try {
+        // Fetch user statistics
+        const totalStudents = await Student.countDocuments();
+        const totalTeachers = await Teacher.countDocuments();
+
+        const studentsByDepartment = await Student.aggregate([
+            { $group: { _id: "$department", count: { $sum: 1 } } }
+        ]);
+
+        const teachersByDepartment = await Teacher.aggregate([
+            { $group: { _id: "$department", count: { $sum: 1 } } }
+        ]);
+
+        // Fetch timetable statistics
+        const totalTimeslots = 8 * 7; // Assuming 8 slots per day for 7 days
+        const scheduledTimeslots = await Timetable.aggregate([
+            { $unwind: "$days" },
+            { $unwind: "$days.timeSlots" },
+            { $group: { _id: null, count: { $sum: 1 } } }
+        ]);
+
+        // Fetch conflict statistics (assuming you have a conflict collection or a way to track conflicts)
+        // const conflicts = await Conflict.countDocuments(); // Replace with actual conflict collection/query if available
+
+        // Prepare data for the view
+        const analyticsData = {
+            totalStudents,
+            totalTeachers,
+            studentsByDepartment,
+            teachersByDepartment,
+            totalTimeslots,
+            scheduledTimeslots: scheduledTimeslots[0] ? scheduledTimeslots[0].count : 0,
+            // conflicts
+        };
+
+        res.render('admin_analytics', { analyticsData });
+    } catch (error) {
+        console.error('Error fetching analytics data:', error);
+        res.status(500).send('Error fetching analytics data');
     }
 };

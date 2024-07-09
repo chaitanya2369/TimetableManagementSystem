@@ -1,6 +1,6 @@
 const Timetable = require('../models/timetable');
 const Student = require('../models/student'); // Updated to use singular Student for consistency
-
+const Notification = require('../models/notification');
 module.exports.dashboard = (req, res) => {
     if (req.user && req.user.role === 'student') {
         res.render('student_dashboard', { user: req.user });
@@ -8,6 +8,27 @@ module.exports.dashboard = (req, res) => {
         res.redirect('/users/sign-in');
     }
 };
+
+// module.exports.notifications = async (req, res) => {
+//     if (req.user) {
+//         if (req.user.role === 'student') {
+//             console.log(req.user);
+//             const email = req.user.email;
+//             console.log(email);
+//             const student = await Student.findOne({ email });
+//             const notifications = await Notification.find({ 
+//                 recipientType: 'student', 
+//                 department: student.department||'ALL', 
+//                 year: student.year 
+//             }).sort({ createdAt: -1 }).lean();
+
+//             res.render('student_notification', { user: req.user, notifications });
+//         } else {
+//             res.redirect('/users/sign-in');
+//         }
+//     }
+// };
+
 
 module.exports.viewTimetables = async (req, res) => {
     try {

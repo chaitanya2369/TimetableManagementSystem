@@ -1,0 +1,26 @@
+<!-- views/view_notifications.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notifications</title>
+    <link rel="stylesheet" type="text/css" href="/css/notification.css" />
+</head>
+<body>
+    <%- include('partials/header', { title: 'Notifications' }) %>
+    <main>
+        <div class="table-container">
+            <h1>Notifications</h1>
+            <ul>
+                <% notifications.forEach(notification => { %>
+                    <li>
+                        <h2><%= notification.title %></h2>
+                        <p><%= notification.message %></p>
+                        <small><%= notification.date.toDateString() %></small>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>

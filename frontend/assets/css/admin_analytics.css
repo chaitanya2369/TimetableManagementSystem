@@ -1,0 +1,151 @@
+/* admin_analytics.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(187, 236, 242);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+}
+
+.login button {
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login a {
+    text-decoration: none;
+    color: white;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#name {
+    color: #555;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h3 {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.sections {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+section {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: calc(50% - 40px);
+    box-sizing: border-box;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+}
+
+.footer-content p {
+    margin: 10px 0;
+}
+
+.stats {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    /* text-align: center; */
+}
+
+.stats p, .stats ul {
+    margin: 10px 0;
+}
+
+.stats ul {
+    list-style: none;
+    padding: 0;
+}
+
+.stats ul li {
+    background-color: #e9ecef;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+canvas {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

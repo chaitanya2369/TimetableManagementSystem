@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+        <% if (user.role === 'teacher') { %>
+            Teacher Notifications
+        <% } else { %>
+            Student Notifications
+        <% } %>
+    </title>
+    <link rel="stylesheet" type="text/css" href="/css/student_notifications.css" />
+</head>
+  <body>
+    <header>
+      <div class="header">
+        <div class="logo">
+          <img src="/images/logo1.png" alt="Institution Logo" />
+        </div>
+        <h1><% if (user.role === 'teacher') { %>
+          Teacher Dashboard
+      <% } else { %>
+          Student Dashboard
+      <% } %></h1>
+        <div class="login">
+          <button><a href="/users/sign-out">Sign Out</a></button>
+        </div>
+      </div>
+    </header>
+    <main>
+      <h1>Welcome, <%= user.name %>!</h1>
+      <div class="notifications-container">
+        <h2>Notifications</h2>
+        <ul class="notifications-list">
+          <% notifications.forEach(notification => { %>
+          <li
+            class="notification-item <%= notification.read ? 'read' : 'unread' %>"
+          >
+            <div class="notification-content">
+              <h3><%= notification.title %></h3>
+              <p><strong>Announcement:</strong> <%= notification.message %></p>
+              <div class="notification-actions">
+                <% if (notification.read) { %>
+                <form
+                  action="/<%= user.role%>/notifications/mark-as-unread/<%= notification._id %>"
+                  method="POST"
+                >
+                  <button type="submit">Mark as Unread</button>
+                </form>
+                <% } else { %>
+                <form
+                  action="/<%= user.role%>/notifications/mark-as-read/<%= notification._id %>"
+                  method="POST"
+                >
+                  <button type="submit">Mark as Read</button>
+                </form>
+                <% } %> <% if (notification.starred) { %>
+                <form
+                  action="/<%= user.role%>/notifications/unstar/<%= notification._id %>"
+                  method="POST"
+                >
+                  <button type="submit">Unstar</button>
+                </form>
+                <% } else { %>
+                <form
+                  action="/<%= user.role%>/notifications/star/<%= notification._id %>"
+                  method="POST"
+                >
+                  <button type="submit">Star</button>
+                </form>
+                <% } %>
+              </div>
+            </div>
+            <div class="notification-date">
+              <p><%= notification.createdAt.toDateString() %></p>
+            </div>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+
+      <div class="starred-notifications-container">
+        <h2>Starred Notifications</h2>
+        <ul class="starred-notifications-list">
+          <% notifications.filter(notification =>
+          notification.starred).forEach(notification => { %>
+          <li
+            class="notification-item <%= notification.read ? 'read' : 'unread' %>"
+          >
+            <div class="notification-content">
+              <h3><%= notification.title %></h3>
+              <p><strong>Announcement:</strong> <%= notification.message %></p>
+              <div class="notification-actions">
+                <% if (notification.read) { %>
+                <form
+                  action="/<%= user.role%>/notifications/mark-as-unread/<%= notification._id %>"
+                  method="POST"
+                >
+                  <button type="submit">Mark as Unread</button>
+                </form>
+                <% } else { %>
+                <form
+                  action="/<%= user.role%>/notifications/mark-as-read/<%= notification._id %>"
+                  method="POST"
+                >
+                  <button type="submit">Mark as Read</button>
+                </form>
+                <% } %>
+                <form
+                  action="/<%= user.role%>/notifications/unstar/<%= notification._id %>"
+                  method="POST"
+                >
+                  <button type="submit">Unstar</button>
+                </form>
+              </div>
+            </div>
+            <div class="notification-date">
+              <p><%= notification.createdAt.toDateString() %></p>
+            </div>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+    </main>
+    <footer>
+      <div class="footer-content">
+        <p>
+          &copy; 2024 Indian Institute of Engineering Science and Technology,
+          Shibpur. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,165 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(187, 236, 242);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+}
+
+.login button {
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login a {
+    text-decoration: none;
+    color: white;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sections {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+section {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: calc(50% - 40px);
+    box-sizing: border-box;
+}
+
+.notification-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.notification-form input,
+.notification-form select,
+.notification-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.notification-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.notification-form button:hover {
+    background-color: #2980b9;
+}
+
+.notifications {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.notification {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-date {
+    color: #888;
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.actions form {
+    margin: 0;
+}
+
+.actions a {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.actions a:hover {
+    background-color: #2980b9;
+}
+
+footer {
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+}
+
+.footer-content p {
+    margin: 10px 0;
+}
